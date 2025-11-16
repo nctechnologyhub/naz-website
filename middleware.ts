@@ -15,7 +15,10 @@ const isPublicRoute = createRouteMatcher([
   "/robots.txt",
 ]);
 
-const isIgnoredRoute = createRouteMatcher(["/api/webhooks/clerk"]);
+const isIgnoredRoute = createRouteMatcher([
+  "/api/webhooks/clerk",
+  "/api/vercel/analytics",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (isPublicRoute(req) || isIgnoredRoute(req)) {

@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+
 const quickActions = [
   { label: "Add New Product", href: "/portal/products/new" },
   { label: "Create Job Posting", href: "/portal/careers" },
@@ -13,32 +15,48 @@ export default function PortalDashboardPage() {
   const products = useQuery(api.products.list, {}) ?? [];
   const careers = useQuery(api.careers.list, {}) ?? [];
   const banners = useQuery(api.homeBanners.list, {}) ?? [];
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+  const [visitorLabel, setVisitorLabel] = useState<string>("Loading…");
+
   const totalProducts = products.length;
   const activeProducts = products.filter((p: { status: string }) => p.status === "visible").length;
   const openRoles = careers.length;
-  
-  // Note: Vercel Analytics doesn't provide a REST API to fetch visitor data.
-  // Set NEXT_PUBLIC_VISITOR_COUNT env var to manually sync with Vercel dashboard.
-  // Otherwise, it will show an estimate based on content.
-  const manualVisitorCount = process.env.NEXT_PUBLIC_VISITOR_COUNT 
-    ? parseInt(process.env.NEXT_PUBLIC_VISITOR_COUNT, 10) 
-    : null;
-  const estimatedVisitors = manualVisitorCount ?? Math.max(banners.length * 1200 + products.length * 150, 0);
+  const fallbackVisitors = Math.max(banners.length * 1200 + products.length * 150, 0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fetchVisitors = async () => {
+      try {
+        const res = await fetch("/api/vercel/analytics?period=7d", { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to fetch Vercel analytics");
+        const data = await res.json();
+        if (!cancelled) {
+          setVisitorCount(data.visitors ?? fallbackVisitors);
+          setVisitorLabel("Last 7 days (Vercel)");
+        }
+      } catch {
+        if (!cancelled) {
+          setVisitorCount(fallbackVisitors);
+          setVisitorLabel("Fallback estimate");
+        }
+      }
+    };
+    fetchVisitors();
+    return () => {
+      cancelled = true;
+    };
+  }, [fallbackVisitors]);
 
   return (
     <div className="space-y-8">
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard title="Total Products" value={totalProducts} change="Item" />
-        <StatCard
-          title="Active Listings"
-          value={activeProducts}
-          change="Item"
-        />
+        <StatCard title="Active Listings" value={activeProducts} change="Item" />
         <StatCard title="Open Roles" value={openRoles} change="Open" />
         <StatCard
           title="Site Visitors"
-          value={estimatedVisitors}
-          change={manualVisitorCount ? "Vercel Analytics" : "Estimated"}
+          value={visitorCount ?? fallbackVisitors}
+          change={visitorLabel}
         />
       </section>
 
