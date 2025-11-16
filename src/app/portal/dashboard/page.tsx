@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 const quickActions = [
@@ -14,35 +13,17 @@ export default function PortalDashboardPage() {
   const products = useQuery(api.products.list, {}) ?? [];
   const careers = useQuery(api.careers.list, {}) ?? [];
   const banners = useQuery(api.homeBanners.list, {}) ?? [];
-  const [visitors, setVisitors] = useState<number | null>(null);
-  const [visitorsLabel, setVisitorsLabel] = useState<string>("Live");
-
   const totalProducts = products.length;
   const activeProducts = products.filter((p: { status: string }) => p.status === "visible").length;
   const openRoles = careers.length;
-  const fallbackVisitors = Math.max(banners.length * 1200, 0);
-
-  useEffect(() => {
-    let cancelled = false;
-    async function fetchAnalytics() {
-      try {
-        const res = await fetch("/api/vercel/analytics?period=7d", { cache: "no-store" });
-        if (!res.ok) throw new Error("analytics request failed");
-        const data = await res.json();
-        if (cancelled) return;
-        setVisitors(data.visitors ?? fallbackVisitors);
-        setVisitorsLabel("Last 7 days (Vercel)");
-      } catch {
-        if (cancelled) return;
-        setVisitors(fallbackVisitors);
-        setVisitorsLabel("Fallback estimate");
-      }
-    }
-    fetchAnalytics();
-    return () => {
-      cancelled = true;
-    };
-  }, [fallbackVisitors]);
+  
+  // Note: Vercel Analytics doesn't provide a REST API to fetch visitor data.
+  // Set NEXT_PUBLIC_VISITOR_COUNT env var to manually sync with Vercel dashboard.
+  // Otherwise, it will show an estimate based on content.
+  const manualVisitorCount = process.env.NEXT_PUBLIC_VISITOR_COUNT 
+    ? parseInt(process.env.NEXT_PUBLIC_VISITOR_COUNT, 10) 
+    : null;
+  const estimatedVisitors = manualVisitorCount ?? Math.max(banners.length * 1200 + products.length * 150, 0);
 
   return (
     <div className="space-y-8">
@@ -56,8 +37,8 @@ export default function PortalDashboardPage() {
         <StatCard title="Open Roles" value={openRoles} change="Open" />
         <StatCard
           title="Site Visitors"
-          value={visitors ?? fallbackVisitors}
-          change={visitorsLabel}
+          value={estimatedVisitors}
+          change={manualVisitorCount ? "Vercel Analytics" : "Estimated"}
         />
       </section>
 
