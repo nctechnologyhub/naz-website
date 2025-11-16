@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { useAuth } from '@clerk/nextjs'
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -23,7 +22,7 @@ export default clerkMiddleware(async (auth, req) => {
     return;
   }
 
-  const { userId } =  useAuth();
+  const { userId } = await auth();
   if (!userId) {
     return NextResponse.redirect(new URL("/", req.url));
   }
