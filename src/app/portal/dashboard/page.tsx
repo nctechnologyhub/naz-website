@@ -15,25 +15,37 @@ export default function PortalDashboardPage() {
   const products = useQuery(api.products.list, {}) ?? [];
   const careers = useQuery(api.careers.list, {}) ?? [];
   const banners = useQuery(api.homeBanners.list, {}) ?? [];
-  const [visitorCount, setVisitorCount] = useState<number | null>(null);
-  const [visitorLabel, setVisitorLabel] = useState<string>("Loading…");
+  const manualVisitorCount =
+    process.env.NEXT_PUBLIC_VISITOR_COUNT &&
+    !Number.isNaN(Number(process.env.NEXT_PUBLIC_VISITOR_COUNT))
+      ? Number(process.env.NEXT_PUBLIC_VISITOR_COUNT)
+      : null;
+  const [visitorCount, setVisitorCount] = useState<number | null>(manualVisitorCount);
+  const [visitorLabel, setVisitorLabel] = useState<string>(
+    manualVisitorCount ? "Manual (env)" : "Loading…"
+  );
 
   const totalProducts = products.length;
   const activeProducts = products.filter((p: { status: string }) => p.status === "visible").length;
   const openRoles = careers.length;
   const fallbackVisitors = Math.max(banners.length * 1200 + products.length * 150, 0);
-  const manualVisitorCount = process.env.NEXT_PUBLIC_VISITOR_COUNT ? parseInt(process.env.NEXT_PUBLIC_VISITOR_COUNT, 10) : null;
 
   useEffect(() => {
+    if (manualVisitorCount !== null) {
+      setVisitorCount(manualVisitorCount);
+      setVisitorLabel("Total Number");
+      return;
+    }
+
     let cancelled = false;
     const fetchVisitors = async () => {
       try {
-        const res = await fetch("/api/vercel/analytics?period=all", { cache: "no-store" });
+        const res = await fetch("/api/vercel/analytics?period=30d", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch Vercel analytics");
         const data = await res.json();
         if (!cancelled) {
           setVisitorCount(data.visitors ?? fallbackVisitors);
-          setVisitorLabel("Total visitors");
+          setVisitorLabel("Last 30 days (Vercel)");
         }
       } catch {
         if (!cancelled) {

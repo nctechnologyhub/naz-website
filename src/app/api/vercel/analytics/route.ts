@@ -15,7 +15,8 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const period = searchParams.get("period") ?? "all";
+  const rawPeriod = searchParams.get("period") ?? "30d";
+  const period = ["24h", "7d", "30d"].includes(rawPeriod) ? rawPeriod : "30d";
 
   const endpoint = new URL("https://api.vercel.com/v6/analytics/summary");
   endpoint.searchParams.set("projectId", projectId);
@@ -45,3 +46,4 @@ export async function GET(request: Request) {
     return NextResponse.json({ visitors: fallback, error: "Failed to fetch Vercel analytics" });
   }
 }
+ 
