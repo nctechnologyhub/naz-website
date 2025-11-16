@@ -51,7 +51,7 @@ export default function EditProductPage() {
     if (!productId) return;
     setIsSubmitting(true);
 
-    let attachmentStorageId: string | undefined;
+    let attachmentStorageId: Id<"_storage"> | undefined = undefined;
     if (attachmentFile) {
       const uploadUrl = await generateUploadUrl({});
       const uploadResponse = await fetch(uploadUrl, {
@@ -59,8 +59,8 @@ export default function EditProductPage() {
         headers: { "Content-Type": attachmentFile.type },
         body: attachmentFile,
       });
-      const json = await uploadResponse.json();
-      attachmentStorageId = json.storageId;
+      const { storageId } = (await uploadResponse.json()) as { storageId: string };
+      attachmentStorageId = storageId as Id<"_storage">;
     }
 
     await updateProduct({
@@ -163,7 +163,7 @@ export default function EditProductPage() {
         </label>
         <div className="space-y-3">
           <p className="text-sm font-medium text-slate-700">Attachment</p>
-          {hasAttachment && !removeAttachment && (
+          {hasAttachment && !removeAttachment && product.attachmentUrl && (
             <div className="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50/60 px-4 py-3 text-sm">
               <a
                 href={product.attachmentUrl}

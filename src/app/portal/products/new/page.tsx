@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
+import { Id } from "../../../../../convex/_generated/dataModel";
 
 const statuses = [
   { label: "Unhide", value: "visible" },
@@ -30,7 +31,7 @@ export default function NewProductPage() {
     event.preventDefault();
     setIsSubmitting(true);
 
-    let attachmentStorageId: string | undefined;
+    let attachmentStorageId: Id<"_storage"> | undefined = undefined;
     if (attachmentFile) {
       const uploadUrl = await generateUploadUrl({});
       const response = await fetch(uploadUrl, {
@@ -38,8 +39,8 @@ export default function NewProductPage() {
         headers: { "Content-Type": attachmentFile.type },
         body: attachmentFile,
       });
-      const json = await response.json();
-      attachmentStorageId = json.storageId;
+      const { storageId } = (await response.json()) as { storageId: string };
+      attachmentStorageId = storageId as Id<"_storage">;
     }
 
     await createProduct({
