@@ -11,6 +11,9 @@ const isPublicRoute = createRouteMatcher([
   "/career",
   "/contact",
   "/staff/sign-in",
+  "/img(.*)",
+  "/favicon.ico",
+  "/robots.txt",
 ]);
 
 const isIgnoredRoute = createRouteMatcher(["/api/webhooks/clerk"]);
@@ -27,5 +30,5 @@ export default clerkMiddleware(async (auth, req) => {
 });
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|img/).*)"],
 };
