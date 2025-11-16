@@ -25,7 +25,7 @@ export default function PortalCertificationsPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    let attachmentStorageId: Id<"_storage"> | undefined;
+    let attachmentStorageId: Id<"_storage"> | undefined = undefined;
     if (attachmentFile) {
       const uploadUrl = await generateUploadUrl({});
       const response = await fetch(uploadUrl, {
@@ -33,12 +33,17 @@ export default function PortalCertificationsPage() {
         headers: { "Content-Type": attachmentFile.type },
         body: attachmentFile,
       });
-      const { storageId } = await response.json();
+      const { storageId } = (await response.json()) as { storageId: string };
       attachmentStorageId = storageId as Id<"_storage">;
     }
 
     await createCertification({
-      ...formState,
+      issuer: formState.issuer,
+      name: formState.name,
+      standard: formState.standard,
+      scope: formState.scope,
+      issuedDate: formState.issuedDate,
+      expiredDate: formState.expiredDate,
       attachmentStorageId,
     });
     setFormState({
