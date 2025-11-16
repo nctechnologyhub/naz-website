@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { Id } from "../../../../convex/_generated/dataModel";
 
 export default function PortalCertificationsPage() {
   const certifications = useQuery(api.certifications.list, {}) ?? [];
@@ -24,7 +25,7 @@ export default function PortalCertificationsPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    let attachmentStorageId: string | undefined;
+    let attachmentStorageId: Id<"_storage"> | undefined;
     if (attachmentFile) {
       const uploadUrl = await generateUploadUrl({});
       const response = await fetch(uploadUrl, {
@@ -33,7 +34,7 @@ export default function PortalCertificationsPage() {
         body: attachmentFile,
       });
       const { storageId } = await response.json();
-      attachmentStorageId = storageId;
+      attachmentStorageId = storageId as Id<"_storage">;
     }
 
     await createCertification({

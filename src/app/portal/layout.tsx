@@ -183,6 +183,12 @@ function MobileUserPanel() {
   return (
     <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-700 lg:hidden">
       <OrganizationSwitcher />
+      <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+        <p className="font-semibold text-slate-900">{user.fullName}</p>
+        <p className="text-xs text-slate-500">
+          {organization?.name ?? "NAZ Medical"}
+        </p>
+      </div>
       <div className="flex items-center justify-between rounded-full border border-slate-200 bg-white px-3 py-2 shadow-sm">
         <UserButton />
         <span className="text-sm text-slate-700">{user.fullName}</span>

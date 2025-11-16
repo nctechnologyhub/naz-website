@@ -15,7 +15,7 @@ export default function StaffSignInPage() {
           </Link>
         </p>
         <div className="mt-8 flex justify-center">
-          <SignIn redirectUrl="/portal/dashboard" />
+          <SignIn fallbackRedirectUrl="/portal/dashboard" />
         </div>
       </div>  
     </div>

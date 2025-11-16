@@ -64,14 +64,4 @@ export default defineSchema({
     organizationId: v.id("organizations"),
     createdAt: v.number(),
   }).index("by_org", ["organizationId"]),
-
-  activityLogs: defineTable({
-    type: v.string(),
-    message: v.string(),
-    actorUserId: v.optional(v.id("users")),
-    organizationId: v.id("organizations"),
-    createdAt: v.number(),
-  })
-    .index("by_org", ["organizationId"])
-    .index("by_created_at", ["createdAt"]),
 });

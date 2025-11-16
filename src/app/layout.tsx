@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" className="h-full bg-[#F7FAF7]">
+      <html lang="en" className="h-full bg-[#F7FAF7]" data-scroll-behavior="smooth">
         <body
           className={`${inter.variable} min-h-screen bg-[#F7FAF7] font-sans text-slate-900 antialiased`}
         >
