@@ -22,17 +22,18 @@ export default function PortalDashboardPage() {
   const activeProducts = products.filter((p: { status: string }) => p.status === "visible").length;
   const openRoles = careers.length;
   const fallbackVisitors = Math.max(banners.length * 1200 + products.length * 150, 0);
+  const manualVisitorCount = process.env.NEXT_PUBLIC_VISITOR_COUNT ? parseInt(process.env.NEXT_PUBLIC_VISITOR_COUNT, 10) : null;
 
   useEffect(() => {
     let cancelled = false;
     const fetchVisitors = async () => {
       try {
-        const res = await fetch("/api/vercel/analytics?period=7d", { cache: "no-store" });
+        const res = await fetch("/api/vercel/analytics?period=all", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch Vercel analytics");
         const data = await res.json();
         if (!cancelled) {
           setVisitorCount(data.visitors ?? fallbackVisitors);
-          setVisitorLabel("Last 7 days (Vercel)");
+          setVisitorLabel("Total visitors");
         }
       } catch {
         if (!cancelled) {
@@ -55,7 +56,7 @@ export default function PortalDashboardPage() {
         <StatCard title="Open Roles" value={openRoles} change="Open" />
         <StatCard
           title="Site Visitors"
-          value={visitorCount ?? fallbackVisitors}
+          value={visitorCount ?? manualVisitorCount ?? fallbackVisitors}
           change={visitorLabel}
         />
       </section>
