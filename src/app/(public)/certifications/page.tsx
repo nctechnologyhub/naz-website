@@ -13,23 +13,13 @@ type CertificationCard = {
   attachmentUrl?: string;
 };
 
-const fallbackCertificates: CertificationCard[] = [
-  {
-    issuer: "",
-    standard: "",
-    name: "",
-    detail:
-      "",
-  }
-];
-
 export default function CertificationsPage() {
-  const certifiedRecords =
-    useQuery(api.certifications.list, {}) ?? undefined;
+  const certifiedRecords = useQuery(api.certifications.list, {});
+  const isLoading = certifiedRecords === undefined;
 
   const certificates: CertificationCard[] = useMemo(() => {
     if (!certifiedRecords || certifiedRecords.length === 0) {
-      return fallbackCertificates;
+      return [];
     }
 
     return certifiedRecords.map((cert) => ({
@@ -57,6 +47,22 @@ export default function CertificationsPage() {
         </p>
       </header>
       <div className="grid gap-6 md:grid-cols-2">
+        {isLoading &&
+          [1, 2, 3, 4].map((index) => (
+            <div
+              key={`cert-skeleton-${index}`}
+              className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm"
+            >
+              <div className="h-3 w-24 animate-pulse rounded-full bg-emerald-100" />
+              <div className="mt-4 h-4 w-40 animate-pulse rounded-full bg-emerald-100" />
+              <div className="mt-2 h-4 w-32 animate-pulse rounded-full bg-emerald-100" />
+              <div className="mt-3 space-y-2">
+                <div className="h-3 w-full animate-pulse rounded-full bg-emerald-50" />
+                <div className="h-3 w-5/6 animate-pulse rounded-full bg-emerald-50" />
+              </div>
+              <div className="mt-5 h-3 w-28 animate-pulse rounded-full bg-emerald-100" />
+            </div>
+          ))}
         {certificates.map((cert) => (
           <div
             key={cert._id ?? cert.standard}
@@ -88,6 +94,11 @@ export default function CertificationsPage() {
             )}
           </div>
         ))}
+        {!isLoading && certificates.length === 0 && (
+          <div className="col-span-full rounded-3xl border border-dashed border-emerald-200 bg-emerald-50/80 p-6 text-center text-sm font-semibold text-emerald-800">
+            No record
+          </div>
+        )}
       </div>
     </div>
   );

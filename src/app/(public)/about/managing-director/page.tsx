@@ -8,6 +8,13 @@ const biography = [
   "He is a passionate Malaysian businessman who continues to drive excellence in business, education, social work, and local politics.",
 ];
 
+const otherPos = [
+  { label: "Ahli Lembaga Pelawat (2023-2026)", value: "Hospital Pakar KPJ Tawakkal KL (KPJ Tawakkal KL Specialist)" },
+  { label: "Adjunt Lecturer (2024-Present)", value: "MSU" },
+  { label: "Member of UIAP (2024-Present)", value: "University - Industry Advisory Panel" },
+];
+
+
 export default function ManagingDirectorProfile() {
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-6 py-16">
@@ -23,7 +30,7 @@ export default function ManagingDirectorProfile() {
       <div className="grid gap-8 rounded-3xl border border-emerald-100 bg-white p-8 shadow-sm md:grid-cols-[320px,1fr]">
         <div className="flex flex-col items-center gap-4 text-center">
           <Image
-            src="https://placehold.co/320x400?text=MD+Portrait"
+            src="/img/md.jpg"
             alt="Datuk Dr. Hj. Azami Hj. Said"
             width={320}
             height={400}
@@ -42,6 +49,19 @@ export default function ManagingDirectorProfile() {
           ))}
         </div>
       </div>
+      <div className="grid gap-1 rounded-3xl border border-emerald-100 bg-white p-8 shadow-sm md:grid-cols-[320px,1fr]">
+      <p className="text-sm font-semibold uppercase tracking-wide text-emerald-600">
+              Other Positions
+            </p>
+          <dl className="mt-4 space-y-3 text-sm text-slate-700">
+              {otherPos.map((fact) => (
+                <div key={fact.label}>
+                  <dt className="font-semibold text-slate-900">{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+        </div>
     </div>
   );
 }

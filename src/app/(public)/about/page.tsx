@@ -93,7 +93,7 @@ export default function AboutPage() {
               Management Team
             </p>
             <p className="mt-4 text-sm leading-7 text-slate-700">
-              We are led by an experienced management team, headed by our Managing Director Datuk Dr. Hj. Azami Hj. Said Ph.D. The team consistently pursues better performance by offering quality products at competitive prices and delivering reliable after-sales service to ensure high customer satisfaction. NAZ Medical Supplies Sdn. Bhd. has been awarded MS ISO 9001:2015, MS ISO 13485:2016 & MS ISO 14001:2015 certifications.
+              We are led by an experienced management team, headed by our Managing Director Datuk Dr. Hj. Azami Hj. Said Ph.D. The team consistently pursues better performance by offering quality products at competitive prices and delivering reliable after-sales service to ensure high customer satisfaction. N.A.Z Medical Supplies Sdn. Bhd. has been awarded MS ISO 9001:2015, MS ISO 13485:2016 & MS ISO 14001:2015 certifications.
             </p>
           </div>
           <div className="border-t border-emerald-50 pt-6">

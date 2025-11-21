@@ -38,7 +38,7 @@ function SiteHeader() {
             className="h-15 w-15 object-cover"
             priority
           />
-          <span>N.A.Z Medical Supplies</span>
+          <span>N.A.Z Medical Supplies Sdn. Bhd.</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
           {NAV_LINKS.map((link) => (
@@ -121,7 +121,7 @@ function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
                 <div className="grid gap-6 md:grid-cols-3">
           <div>
-            <p className="text-lg font-semibold text-emerald-300">NAZ Medical</p>
+            <p className="text-lg font-semibold text-emerald-300">N.A.Z Medical Supplies Sdn. Bhd.</p>
             <p className="mt-2 text-sm text-white/80">
               Trusted provider of medical supplies and hospital solutions across
               the region. We blend clinical precision with human-centered service.
@@ -192,7 +192,7 @@ function SiteFooter() {
 
         </div>
         <div className="flex flex-col gap-4 border-t border-white/10 pt-4 text-sm text-white/70 md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} NAZ Medical. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} N.A.Z Medical Supplies Sdn Bhd. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-3 text-white/80">
             {socials.map((item) => (
               <a

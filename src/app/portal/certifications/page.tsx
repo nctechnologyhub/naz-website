@@ -199,7 +199,7 @@ export default function PortalCertificationsPage() {
         ))}
         {certifications.length === 0 && (
           <div className="rounded-3xl border border-dashed border-emerald-200 bg-emerald-50/80 p-6 text-sm text-emerald-800">
-            No certifications recorded yet. Use the form above to add them.
+            No record
           </div>
         )}
       </div>

@@ -15,11 +15,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "NAZ Medical | Trusted Medical Supplies Partner",
+  title: "NAZ Medical Supplies | Trusted Medical Supplies Partner",
   description:
-    "Modern NAZ Medical experience with secure staff portal and Convex-powered admin tools.",
+    "Your tursted medical supplies.",
   icons: {
-    icon: "/img/icon.png",
+    icon: "/img/icon.png", 
   },
 };
 

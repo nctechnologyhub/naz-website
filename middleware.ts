@@ -11,7 +11,6 @@ const isPublicRoute = createRouteMatcher([
   "/contact",
   "/staff/sign-in",
   "/img(.*)",
-  "/favicon.ico",
   "/robots.txt",
 ]);
 

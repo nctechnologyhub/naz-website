@@ -32,7 +32,7 @@ const otherBranches = [
       "Lot E5 & E6, Block E, Cyber Square Commercial Centre",
       "Lintas-Kepayan Highway, 88200 Kota Kinabalu, Sabah",
     ],
-    email: "sales_sabah@nazmedical.com.my",
+    email: "veriant@gmail.com",
     phone: "(60)15-4818 9017",
     fax: "(60)15-4818 9014",
   },
@@ -42,7 +42,7 @@ const otherBranches = [
       "Lot 843, Block 7, Muara Tebas Land District",
       "Sejingkat Industrial Park, 93050 Kuching, Sarawak",
     ],
-    email: "sales_sarawak@nazmedical.com.my",
+    email: "janyce_chair@borneopharmacy.com",
     phone: "(60)82-433566",
   },
 ];
@@ -114,19 +114,19 @@ export default function ContactPage() {
               <li>
                 Sabah:{" "}
                 <a
-                  href="mailto:sales_sabah@nazmedical.com.my"
+                  href="mailto:veriant@gmail.com"
                   className="font-semibold text-emerald-700"
                 >
-                  sales_sabah@nazmedical.com.my
+                  veriant@gmail.com
                 </a>
               </li>
               <li>
                 Sarawak:{" "}
                 <a
-                  href="mailto:sales_sarawak@nazmedical.com.my"
+                  href="mailto:janyce_chai@borneophamacy.com"
                   className="font-semibold text-emerald-700"
                 >
-                  sales_sarawak@nazmedical.com.my
+                  janyce_chai@borneophamacy.com
                 </a>
               </li>
             </ul>

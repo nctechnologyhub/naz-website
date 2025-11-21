@@ -246,7 +246,7 @@ export default function HomeBannersPage() {
 
       {banners.length === 0 && (
         <div className="rounded-3xl border border-dashed border-emerald-200 bg-emerald-50/60 p-6 text-sm text-emerald-700">
-          No banners yet. Publish at least one to populate the public home page slider.
+          No record
         </div>
       )}
     </div>

@@ -104,7 +104,7 @@ export default function PortalProductsPage() {
                   colSpan={5}
                   className="px-4 py-6 text-center text-sm text-slate-500"
                 >
-                  No products yet. Use the button above to create one.
+                  No record
                 </td>
               </tr>
             )}
